@@ -96,8 +96,47 @@ def fsm(input_str: str,
     else:
         return False
 
-def separate_tokens(input_str: str):
+
+def read_file(file_path: str) -> str:
     '''
     '''
 
-    
+    with open(file_path, 'r', encoding = 'utf-8') as file:
+        file_contents = file.read()
+    print(file_contents)
+
+    input_without_comments = remove_comments(file_contents)
+    print(input_without_comments)
+
+    return input_without_comments
+
+
+
+def remove_comments(text_input: str) -> str:
+    '''
+    '''
+    inside_comment = False
+    input_without_comments = ''
+
+    for index in range(len(text_input) - 1):
+        current_char = text_input[index]
+        next_char = text_input[index + 1]
+
+        if current_char == comment and not inside_comment and next_char != '=':
+            inside_comment = True
+        elif current_char == comment and inside_comment and next_char != '=':
+            inside_comment = False
+        elif not inside_comment:
+            input_without_comments += current_char
+
+    return input_without_comments
+
+def separate_tokens(input_str: str) -> list[(str, str)]:
+    '''
+    '''
+    tokens = []
+
+
+
+if __name__ == '__main__':
+    read_file('tests/test.txt')
