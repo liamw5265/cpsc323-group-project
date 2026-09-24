@@ -1,14 +1,11 @@
 # Lexical Analyzer
-
 ## Identifier
-
 ### Regular Expression
-$$\ell(|\ell|d|\_)*$$
-
+$$\ell(|\ell|d|\_)^*$$
 ### Transition Diagram
 ```mermaid
 flowchart LR
-    A[1]
+    A[1<br>Starting State]
     B[2]
     C[3]
     D[4]
@@ -35,11 +32,10 @@ flowchart LR
     J --> |"$$\epsilon$$"| C
     B --> |"$$\epsilon$$"| K
 ```
-
 ### $\epsilon$-Closure
 - $\epsilon$-Closure(1) = {1}
 - $\epsilon$-Closure(2) = {2, 3, 4, 5, 6, 11}
-- $\epsilon$-Closure(3) = {4, 5, 6}
+- $\epsilon$-Closure(3) = {3, 4, 5, 6}
 - $\epsilon$-Closure(4) = {4}
 - $\epsilon$-Closure(5) = {5}
 - $\epsilon$-Closure(6) = {6}
@@ -48,7 +44,6 @@ flowchart LR
 - $\epsilon$-Closure(9) = {3, 4, 5, 6, 9, 10, 11}
 - $\epsilon$-Closure(10) = {3, 4, 5, 6, 10, 11}
 - $\epsilon$-Closure(11) = {11}
-
 ### DFSM
 |     |$\ell$|  $d$  |  _  |
 |:-----:|:------:|:-----:|:-----:|
@@ -69,3 +64,68 @@ Turns into the identifier transition function
 |<u>4</u>|3|4|5|
 |<u>5</u>|3|4|5|
 |6|6|6|6|
+
+
+## Integer
+### Regular Expression
+### Transition Diagram
+```mermaid
+flowchart LR
+    A[1<br>Starting State]
+    B[2<br>Accepting State]
+
+    A --> |"$$d$$"| B
+    B --> |"$$\epsilon$$"| A
+```
+### $\epsilon$-Closure
+### DFSM
+
+## Real
+### Regular Expression
+$$d^*.d^+$$
+### Transition Diagram
+```mermaid
+flowchart LR
+    A[1<br>Starting State]
+    B[2]
+    C[3]
+    D[4]
+    E[5]
+    F[6<br>Accepting State]
+
+    A --> |"$$\epsilon$$"| B
+    B --> |"$$d$$"| C
+    C --> |"$$\epsilon$$"| D
+    D --> |"$$.$$"| E
+    E --> |"$$d$$"| F
+    A --> |"$$\epsilon$$"| D
+    C --> |"$$\epsilon$$"| B
+    F --> |"$$\epsilon$$"| E
+```
+### $\epsilon$-Closure
+- $\epsilon$-Closure(1) = {1, 2, 4}
+- $\epsilon$-Closure(2) = {2,}
+- $\epsilon$-Closure(3) = {2, 3, 4}
+- $\epsilon$-Closure(4) = {4}
+- $\epsilon$-Closure(5) = {5}
+- $\epsilon$-Closure(6) = {5, 6}
+### DFSM
+|     |$d$|  $.$  |
+|:-----:|:------:|:-----:|
+|[1] = {1, 2, 4}|[3] = {2, 3, 4}|[5] = {5}|
+|{2, 3, 4}|[3] = {2, 3, 4}|[5] = {5}|
+|{5}|[6] = {5, 6}|[]|
+|<u>{5, 6}</u>|[6] = {5, 6}|[]|
+|[]|[]|[]|
+
+Turns into the Real transition function
+
+|     |  $\ell$  |  $d$  |
+|:-----:|:-----:|:-----:|
+|$q_0$ = 1|2|3|
+|2|2|3|
+|3|4|5|
+|<u>4</u>|4|5|
+|5|5|5|
+
+
