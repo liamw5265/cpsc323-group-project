@@ -96,20 +96,19 @@ def fsm(input_str: str,
     else:
         return False
 
-
 def read_file(file_path: str) -> str:
     '''
     '''
 
     with open(file_path, 'r', encoding = 'utf-8') as file:
         file_contents = file.read()
-    print(file_contents)
+        print(file_contents)
 
     input_without_comments = remove_comments(file_contents)
+
     print(input_without_comments)
 
     return input_without_comments
-
 
 
 def remove_comments(text_input: str) -> str:
@@ -135,8 +134,29 @@ def separate_tokens(input_str: str) -> list[(str, str)]:
     '''
     '''
     tokens = []
+    token = ''
+
+    input_str = 'while (fahr <= upper) a = 23.00; '
+    for index in range(len(input_str) - 1):
+        current_char = input_str[index]
+        #next_char = input_str[index + 1]
+
+        if ((current_char in separator_list) or 
+            (current_char in operator_list) or 
+            (token in separator_list) or 
+            (token in operator_list)):
+            tokens.append(token)
+            token = ''
+
+        token += current_char
+
+    print(tokens)
+        
+
 
 
 
 if __name__ == '__main__':
-    read_file('tests/test.txt')
+    #no_comment_text = read_file('tests/test.txt')
+
+    separate_tokens('')
