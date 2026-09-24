@@ -68,6 +68,7 @@ Turns into the identifier transition function
 
 ## Integer
 ### Regular Expression
+$$d^+$$
 ### Transition Diagram
 ```mermaid
 flowchart LR
@@ -78,7 +79,20 @@ flowchart LR
     B --> |"$$\epsilon$$"| A
 ```
 ### $\epsilon$-Closure
+- $\epsilon$-Closure(1) = {1}
+- $\epsilon$-Closure(2) = {1, 2}
 ### DFSM
+|       |  $d$  |
+|:-----:|:-----:|
+|[1] = {1}|[2] = {1, 2}|
+|{1, 2}|[2] = {1, 2}|
+
+Turns into the integer transition function
+|       |  $d$  |
+|:-----:|:-----:|
+|1|2|
+|2|2|
+
 
 ## Real
 ### Regular Expression
@@ -104,7 +118,7 @@ flowchart LR
 ```
 ### $\epsilon$-Closure
 - $\epsilon$-Closure(1) = {1, 2, 4}
-- $\epsilon$-Closure(2) = {2,}
+- $\epsilon$-Closure(2) = {2}
 - $\epsilon$-Closure(3) = {2, 3, 4}
 - $\epsilon$-Closure(4) = {4}
 - $\epsilon$-Closure(5) = {5}
