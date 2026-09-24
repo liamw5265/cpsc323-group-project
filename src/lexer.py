@@ -5,17 +5,32 @@ identifier_transition_function = {
 }
 identifier_accepting_states = ['2', '3', '4', '5']
 
-integer_transition_function = {}
+integer_transition_function = {
+    'd': {'1': '2', '2': '2'}
+}
 
-integer_accepting_states = []
+integer_accepting_states = ['2']
 
-real_transition_function = {}
+real_transition_function = {
+    'd': {'1': '2', '2': '2', '3': '4', '4': '4', '5': '5'},
+    '.': {'1': '3', '2': '3', '3': '5', '4': '5', '5': '5'}
+}
 
-real_accepting_states = []
+real_accepting_states = ['4']
 
 starting_state = '1'
 
-def convert_input_to_identifier_fsm_input(input_str: str) -> str:
+operator_list = ['+', '-', '*', '/', '<', '>', '<=', '>=', '=', '==', '!=']
+
+keywords_list = ['integer', 'boolean', 'real', 'if', 'else', 'fi', 'while', 'return', 'get', 'put', 'true', 'false', 'function']
+
+separator_list = ['(', ')', '{', '}', ' ', '@', ';', ',', ':']
+
+comment = '!'
+
+
+
+def convert_input_to_fsm_input(input_str: str) -> str:
     '''
     Turns input into input that the identifier_fsm can accept
 
@@ -27,6 +42,9 @@ def convert_input_to_identifier_fsm_input(input_str: str) -> str:
 
     result = ''
 
+    if input_str in keywords_list:
+        return -1
+
     for char in input_str:
         if char.isalpha():
             result += 'l'
@@ -34,19 +52,21 @@ def convert_input_to_identifier_fsm_input(input_str: str) -> str:
             result += 'd'
         elif char == '_':
             result += '_'
+        elif char == '.':
+            result += '.'
         else:
             result = -1
             break
 
     return result
 
-def identifier_fsm(input_str: str,
+def fsm(input_str: str,
                    starting_states: str,
                    accepting_states: list[str],
                    transition_function: dict[str, dict[str, str]]
                     ) -> bool:
     '''
-    Checks [input_str] if it is a valid identifier
+    Checks [input_str] if it is a valid token
 
     arguments:
         - input_str:
@@ -57,15 +77,27 @@ def identifier_fsm(input_str: str,
     returns (bool): 
     '''
 
-    new_input_str = convert_input_to_identifier_fsm_input(input_str)
+    new_input_str = convert_input_to_fsm_input(input_str)
 
     current_state = starting_states
 
-    for input in new_input_str:
-        next_state = transition_function[input][current_state]
-        current_state = next_state
+    # Testing
+    #print(new_input_str)
+
+    for input in str(new_input_str):
+        try:
+            next_state = transition_function[input][current_state]
+            current_state = next_state
+        except KeyError:
+            return False
 
     if current_state in accepting_states:
         return True
     else:
         return False
+
+def separate_tokens(input_str: str):
+    '''
+    '''
+
+    
