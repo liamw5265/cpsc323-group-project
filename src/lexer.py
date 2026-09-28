@@ -176,6 +176,9 @@ def print_token_and_lexeme(lexeme_list: list[str]):
     print('Token         Lexem\n'
           '-------------------')
     for lexeme in lexeme_list:
+        # to print known token
+        token = 'Unknown'
+
         if lexeme in operator_list:
             token = 'Operator  '
         elif lexeme in separator_list:
@@ -197,6 +200,7 @@ def print_token_and_lexeme(lexeme_list: list[str]):
                  identifier_accepting_states,
                  identifier_transition_function):
             token = 'Identifier'
+
         print(f'{token}    {lexeme}')
         
         
@@ -205,6 +209,13 @@ def print_token_and_lexeme(lexeme_list: list[str]):
 
 
 if __name__ == '__main__':
-    no_comment_text = read_file('tests/test_data/test.txt')
+    no_comment_text = read_file('tests/test_data/test.txt') #just implemented this with 1 test case
+    # It tests while → Keyword
+    #( and ) → Separator
+    #fahr and upper → Identifier
+    #< and = → Operator
+    #a → Identifier
+    #23.00 → Real
+    #; → Separator
     lexeme_list = separate_tokens(no_comment_text)
     print_token_and_lexeme(lexeme_list)
