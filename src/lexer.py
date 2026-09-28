@@ -128,9 +128,18 @@ def remove_comments(text_input: str) -> str:
 
     return input_without_comments
 
-def separate_tokens(input_str: str) -> list[(str, str)]:
+def separate_tokens(input_str: str) -> list[str]:
     '''
+    Truns string input into list of tokens
+
+    Arg:
+        - 
+
+    Returns: list of tokens of type string
     '''
+
+    # Goes char by char and adds to a string(token)
+    # if the current char or token is an separator or operator add to list(tokens)
     tokens = []
     token = ''
 
@@ -146,6 +155,8 @@ def separate_tokens(input_str: str) -> list[(str, str)]:
 
         token += current_char
 
+    # The loop before separated <= and >= operators
+    # Loop goes through each item is list, checks if current token and next token is operator
     with_double_op_tokens_list = []
     is_double_op = False
 
@@ -162,6 +173,7 @@ def separate_tokens(input_str: str) -> list[(str, str)]:
         else:
             with_double_op_tokens_list.append(tokens[index])
 
+    # Loops removes all spaces and newline chars
     final_token_list = []
     for token in with_double_op_tokens_list:
         if token != ' ' and token != '\n':
