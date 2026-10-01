@@ -1,0 +1,32 @@
+function computeTax(amount integer, rate real)
+    integer doubleAmount;
+{
+    doubleAmount = amount * 2;
+    if (doubleAmount > 1000)
+        put(rate);
+    else
+        put(0.15);
+    fi
+}
+@
+    integer total, counter;
+    real basicRate;
+    boolean isComplete;
+@
+{
+    get(total, counter);
+    basicRate = 0.0825;
+    isComplete = false;
+
+    while (counter > 0)
+    {
+        total = total + 50 * counter;
+        counter = counter - 1;
+    }
+
+    if (total >= 5000)
+        isComplete = true;
+    fi
+
+    put(total);
+}
