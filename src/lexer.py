@@ -68,10 +68,11 @@ def fsm(input_str: str,
     Checks [input_str] if it is a valid token
 
     arguments:
-        - input_str:
-        - starting_stats:
-        - accepting_states:
-        - transition_function:
+        - input_str: Proprosessed string variable
+        - starting_stats: string variable for starting state
+        - accepting_states: list of accepted states for related fsm
+        - transition_function: nested dict for transition fucntion for 
+                               related fsm
 
     returns (bool): True or False if [input_str] is a valid token relative to 
                     the transition functions passed
@@ -95,6 +96,12 @@ def fsm(input_str: str,
 
 def read_file(file_path: str) -> str:
     '''
+    Read txt file and assign the data to a string variable
+
+    arguments:
+        - file_path: File path of document as a string
+
+    returns (str): String variable of the data from the text document 
     '''
 
     with open(file_path, 'r', encoding = 'utf-8') as file:
@@ -107,7 +114,15 @@ def read_file(file_path: str) -> str:
 
 def remove_comments(text_input: str) -> str:
     '''
+    Removes all comments from the input string
+
+    arguments:
+        - text_input: The data from the input document as type string
+
+    returns (str): String variable of the data from the text document without 
+                   any comments
     '''
+
     inside_comment = False
     input_without_comments = ''
 
@@ -133,13 +148,14 @@ def separate_tokens(input_str: str) -> list[str]:
     Truns string input into list of tokens
 
     Arg:
-        - 
+        - input_str: Data from input document of type string without any comments
 
     Returns: list of tokens of type string
     '''
 
     # Goes char by char and adds to a string(token)
-    # if the current char or token is an separator or operator add to list(tokens)
+    # if the current char or token is an separator or operator 
+    # add to list(tokens)
     tokens = []
     token = ''
 
@@ -156,7 +172,8 @@ def separate_tokens(input_str: str) -> list[str]:
         token += current_char
 
     # The loop before separated <= and >= operators
-    # Loop goes through each item is list, checks if current token and next token is operator
+    # Loop goes through each item is list, 
+    # checks if current token and next token is operator
     with_double_op_tokens_list = []
     is_double_op = False
 
@@ -183,14 +200,18 @@ def separate_tokens(input_str: str) -> list[str]:
 
 def print_token_and_lexeme(lexeme_list: list[str]):
     '''
+    Prints all lexem and their token type
+
+    arguments:
+        - lexeme_list: List of all lexemes 
     '''
-    token = ''
+
+    token = 'Unknown'
+
     print('Token         Lexem\n'
           '-------------------')
+    
     for lexeme in lexeme_list:
-        # to print known token
-        token = 'Unknown'
-
         if lexeme in operator_list:
             token = 'Operator  '
         elif lexeme in separator_list:
@@ -215,19 +236,7 @@ def print_token_and_lexeme(lexeme_list: list[str]):
 
         print(f'{token}    {lexeme}')
         
-        
-
-
-
-
 if __name__ == '__main__':
-    no_comment_text = read_file('tests/test_data/test.txt') #just implemented this with 1 test case
-    # It tests while → Keyword
-    #( and ) → Separator
-    #fahr and upper → Identifier
-    #< and = → Operator
-    #a → Identifier
-    #23.00 → Real
-    #; → Separator
+    no_comment_text = read_file('tests/lexer_test_cases/test_case_3.txt')
     lexeme_list = separate_tokens(no_comment_text)
     print_token_and_lexeme(lexeme_list)
