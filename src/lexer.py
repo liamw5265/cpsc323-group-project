@@ -171,6 +171,12 @@ def separate_tokens(input_str: str) -> list[str]:
 
         token += current_char
 
+    # keeps the last token
+    if token:
+        tokens.append(token)
+
+    
+
     # The loop before separated <= and >= operators
     # Loop goes through each item is list, 
     # checks if current token and next token is operator
@@ -182,8 +188,11 @@ def separate_tokens(input_str: str) -> list[str]:
             is_double_op = False
             continue
 
-        if ((tokens[index] in operator_list) and 
-            (tokens[index + 1] in operator_list)):
+        #fix added because When index is at the 
+        # last position in tokens, tokens[index + 1] doesn't exist
+        if (index + 1 < len(tokens) and
+        tokens[index] in operator_list and
+        tokens[index + 1] in operator_list):
             double_op = tokens[index] + tokens[index + 1]
             with_double_op_tokens_list.append(double_op)   
             is_double_op = True     
@@ -206,12 +215,12 @@ def print_token_and_lexeme(lexeme_list: list[str]):
         - lexeme_list: List of all lexemes 
     '''
 
-    token = 'Unknown'
-
     print('Token         Lexem\n'
           '-------------------')
     
     for lexeme in lexeme_list:
+        token = 'Unknown'
+
         if lexeme in operator_list:
             token = 'Operator  '
         elif lexeme in separator_list:
