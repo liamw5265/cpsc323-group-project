@@ -207,7 +207,7 @@ def separate_tokens(input_str: str) -> list[str]:
     print(final_token_list)
     return final_token_list
 
-def print_token_and_lexeme(lexeme_list: list[str]):
+def print_token_and_lexeme(lexeme_list: list[str], output_file):
     '''
     Prints all lexem and their token type
 
@@ -215,8 +215,8 @@ def print_token_and_lexeme(lexeme_list: list[str]):
         - lexeme_list: List of all lexemes 
     '''
 
-    print('Token         Lexem\n'
-          '-------------------')
+    output_file.write('Token         Lexeme\n')
+    output_file.write('-------------------\n')
     
     for lexeme in lexeme_list:
         token = 'Unknown'
@@ -243,9 +243,27 @@ def print_token_and_lexeme(lexeme_list: list[str]):
                  identifier_transition_function):
             token = 'Identifier'
 
-        print(f'{token}    {lexeme}')
+        output_file.write(f'{token:<12} {lexeme}\n')
         
 if __name__ == '__main__':
-    no_comment_text = read_file('tests/lexer_test_cases/test_case_3.txt')
-    lexeme_list = separate_tokens(no_comment_text)
-    print_token_and_lexeme(lexeme_list)
+    test_cases = [
+        'tests/lexer_test_cases/test_case_1.txt',
+        'tests/lexer_test_cases/test_case_2.txt',
+        'tests/lexer_test_cases/test_case_3.txt'
+    ]
+
+    for index, test_file in enumerate(test_cases, start=1):
+        no_comment_text = read_file(test_file)
+        lexeme_list = separate_tokens(no_comment_text)
+
+        output_path = f'outputs/output_{index}.txt'
+
+        with open(output_path, 'w', encoding='utf-8') as output_file:
+            print_token_and_lexeme(lexeme_list, output_file)
+
+        print(f'Created {output_path}')
+    
+    #original code in case of error
+    #no_comment_text = read_file(test_cases)
+    #lexeme_list = separate_tokens(no_comment_text)
+    #print_token_and_lexeme(lexeme_list)
