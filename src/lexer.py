@@ -1,3 +1,6 @@
+import sys
+from pathlib import Path
+
 identifier_transition_function = {
     'l': {'1': '2', '2': '3', '3': '3', '4': '3', '5': '3', '6': '6'},
     'd': {'1': '6', '2': '4', '3': '4', '4': '4', '5': '4', '6': '6'},
@@ -251,18 +254,27 @@ def lexer(input_file_path: str, output_file_path: str):
     token_list = separate_tokens(no_comment_text)
     print_token_and_lexeme(token_list, output_file_path)
         
+
 if __name__ == '__main__':
+    # Find the project folder whether running Python or the .exe
+    if getattr(sys, 'frozen', False):
+        project_root = Path(sys.executable).resolve().parent.parent
+    else:
+        project_root = Path(__file__).resolve().parent.parent
+
     test_cases = [
-        'tests/lexer_test_cases/test_case_1.txt',
-        'tests/lexer_test_cases/test_case_2.txt',
-        'tests/lexer_test_cases/test_case_3.txt'
+        project_root / 'tests/lexer_test_cases/test_case_1.txt',
+        project_root / 'tests/lexer_test_cases/test_case_2.txt',
+        project_root / 'tests/lexer_test_cases/test_case_3.txt'
     ]
 
-    for index, test_file in enumerate(test_cases, start=1):
+    output_folder = project_root / 'outputs'
+    output_folder.mkdir(parents=True, exist_ok=True)
 
-        output_path = f'outputs/output_{index}.txt'
+    for index, test_file in enumerate(test_cases, start=1):
+        output_path = output_folder / f'output_{index}.txt'
 
         with open(output_path, 'w', encoding='utf-8') as output_file:
-            lexer(test_file, output_file    )
+            lexer(test_file, output_file)
 
         print(f'Created {output_path}')
