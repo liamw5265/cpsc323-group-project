@@ -204,7 +204,6 @@ def separate_tokens(input_str: str) -> list[str]:
     for token in with_double_op_tokens_list:
         if token != ' ' and token != '\n':
             final_token_list.append(token)
-    print(final_token_list)
     return final_token_list
 
 def print_token_and_lexeme(lexeme_list: list[str], output_file):
@@ -244,6 +243,13 @@ def print_token_and_lexeme(lexeme_list: list[str], output_file):
             token = 'Identifier'
 
         output_file.write(f'{token:<12} {lexeme}\n')
+
+def lexer(input_file_path: str, output_file_path: str):
+    '''
+    '''
+    no_comment_text = read_file(input_file_path)
+    token_list = separate_tokens(no_comment_text)
+    print_token_and_lexeme(token_list, output_file_path)
         
 if __name__ == '__main__':
     test_cases = [
@@ -253,17 +259,10 @@ if __name__ == '__main__':
     ]
 
     for index, test_file in enumerate(test_cases, start=1):
-        no_comment_text = read_file(test_file)
-        lexeme_list = separate_tokens(no_comment_text)
 
         output_path = f'outputs/output_{index}.txt'
 
         with open(output_path, 'w', encoding='utf-8') as output_file:
-            print_token_and_lexeme(lexeme_list, output_file)
+            lexer(test_file, output_file    )
 
         print(f'Created {output_path}')
-    
-    #original code in case of error
-    #no_comment_text = read_file(test_cases)
-    #lexeme_list = separate_tokens(no_comment_text)
-    #print_token_and_lexeme(lexeme_list)
